@@ -81,6 +81,7 @@ set(SOURCE
   "src/main.cpp"
   "src/zack/Shader.cpp"
   "src/zack/TexturedSquare.cpp"
+  "src/zack/Camera.cpp"
 )
 
 message(SOURCE="${SOURCE}")

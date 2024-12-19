@@ -5,13 +5,18 @@
 #include <stb_image.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 TexturedSquare::TexturedSquare(
     const std::string &imagePath,
-    Shader *shader
-) {
-
-    mShader = shader;
+    Shader *shader,
+    Camera &camera,
+    glm::vec3 initialPosition
+):
+    mCamera(camera),
+    mShader(shader),
+    mPosition(initialPosition) {
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -80,11 +85,30 @@ TexturedSquare::TexturedSquare(
 
 void TexturedSquare::draw() {
 
+    mShader->use();
+
+    // calculate model and view
+    glm::mat4 view;
+    glm::mat4 model = glm::mat4(1.0f);
+
+    model = glm::translate(model, mPosition);
+    view  = mCamera.GetViewMatrix();
+
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+
+    int modelLocation = glGetUniformLocation(mShader->getShaderProgramId(), "model");
+    glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+
+    int viewLocation = glGetUniformLocation(mShader->getShaderProgramId(), "view");
+    glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+
+    int projectionLocation = glGetUniformLocation(mShader->getShaderProgramId(), "projection");
+    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+
     // bind Texture
     glBindTexture(GL_TEXTURE_2D, mTextureId);
 
     // render container
-    mShader->use();
     glBindVertexArray(mVAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

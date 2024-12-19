@@ -88,3 +88,7 @@ Shader::~Shader() {
 void Shader::use() {
     glUseProgram(mShaderProgramId);
 }
+
+uint32_t Shader::getShaderProgramId() {
+    return mShaderProgramId;
+}

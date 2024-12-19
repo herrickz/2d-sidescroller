@@ -19,6 +19,8 @@ public:
 
     void use();
 
+    uint32_t getShaderProgramId();
+
 private:
 
     uint32_t mShaderProgramId;

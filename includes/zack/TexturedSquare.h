@@ -2,6 +2,7 @@
 
 #include <string>
 #include <zack/Shader.h>
+#include <zack/Camera.h>
 
 class TexturedSquare {
 
@@ -12,7 +13,9 @@ public:
     */
     TexturedSquare(
         const std::string &imagePath,
-        Shader *shader
+        Shader *shader,
+        Camera &camera,
+        glm::vec3 initialPosition
     );
 
     void draw();
@@ -21,5 +24,8 @@ private:
     uint32_t mTextureId;
     uint32_t mVAO;
 
+    glm::vec3 mPosition;
+
     Shader *mShader;
+    Camera &mCamera;
 };

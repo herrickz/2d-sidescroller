@@ -12,6 +12,11 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+Camera camera;
+
+float lastFrameTime = glfwGetTime();
+float deltaTime = 0.0f;
+
 int main()
 {
 
@@ -48,10 +53,22 @@ int main()
 
     Shader shader("resources/shaders/shader.vs", "resources/shaders/shader.fs");
 
-    TexturedSquare square("resources/textures/container.jpg", &shader);
+    TexturedSquare square(
+        "resources/textures/container.jpg",
+        &shader,
+        camera,
+        { 0.0f , 0.0f, 0.0f }
+    );
+
+    TexturedSquare square1(
+        "resources/textures/container.jpg",
+        &shader,
+        camera,
+        { 1.5f , 0.0f, 0.0f }
+    );
 
     // uncomment this call to draw in wireframe polygons.
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // render loop
     // -----------
@@ -61,12 +78,17 @@ int main()
         // -----
         processInput(window);
 
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrameTime;
+        lastFrameTime = currentFrame;
+
         // render
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         square.draw();
+        square1.draw();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -84,8 +106,16 @@ int main()
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow *window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_A)) {
+        camera.ProcessKeyboard(CameraMovement::LEFT, deltaTime);
+    }
+    if (glfwGetKey(window, GLFW_KEY_D)) {
+        camera.ProcessKeyboard(CameraMovement::RIGHT, deltaTime);
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
