@@ -80,6 +80,7 @@ endmacro()
 set(SOURCE
   "src/main.cpp"
   "src/zack/Shader.cpp"
+  "src/zack/TexturedSquare.cpp"
 )
 
 message(SOURCE="${SOURCE}")

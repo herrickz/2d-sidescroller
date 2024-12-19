@@ -1,8 +1,8 @@
 # learnopengl.com code repository
-Contains code samples for all chapters of Learn OpenGL and [https://learnopengl.com](https://learnopengl.com). 
+Contains code samples for all chapters of Learn OpenGL and [https://learnopengl.com](https://learnopengl.com).
 
 ## Windows building
-All relevant libraries are found in /libs and all DLLs found in /dlls (pre-)compiled for Windows. 
+All relevant libraries are found in /libs and all DLLs found in /dlls (pre-)compiled for Windows.
 The CMake script knows where to find the libraries so just run CMake script and generate project of choice.
 
 Keep in mind the supplied libraries were generated with a specific compiler version which may or may not work on your system (generating a large batch of link errors). In that case it's advised to build the libraries yourself from the source.
@@ -44,8 +44,8 @@ cmake -G Xcode ..
 ```
 
 ## Glitter
-Polytonic created a project called [Glitter](https://github.com/Polytonic/Glitter) that is a dead-simple boilerplate for OpenGL. 
-Everything you need to run a single LearnOpenGL Project (including all libraries) and just that; nothing more. 
+Polytonic created a project called [Glitter](https://github.com/Polytonic/Glitter) that is a dead-simple boilerplate for OpenGL.
+Everything you need to run a single LearnOpenGL Project (including all libraries) and just that; nothing more.
 Perfect if you want to follow along with the chapters, without the hassle of having to manually compile and link all third party libraries!
 
 ## Ports
