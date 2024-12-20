@@ -87,13 +87,12 @@ void TexturedSquare::draw() {
 
     mShader->use();
 
-    // calculate model and view
-    glm::mat4 view;
     glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 view;
 
     model = glm::translate(model, mPosition);
-    view  = mCamera.GetViewMatrix();
 
+    view  = mCamera.GetViewMatrix();
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
 
     int modelLocation = glGetUniformLocation(mShader->getShaderProgramId(), "model");

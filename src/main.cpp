@@ -4,6 +4,7 @@
 #include <zack/TexturedSquare.h>
 
 #include <iostream>
+#include <vector>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -53,19 +54,31 @@ int main()
 
     Shader shader("resources/shaders/shader.vs", "resources/shaders/shader.fs");
 
-    TexturedSquare square(
-        "resources/textures/container.jpg",
-        &shader,
-        camera,
-        { 0.0f , 0.0f, 0.0f }
-    );
+    std::vector<TexturedSquare*> squares;
 
-    TexturedSquare square1(
-        "resources/textures/container.jpg",
-        &shader,
-        camera,
-        { 1.5f , 0.0f, 0.0f }
-    );
+    glm::vec3 cubePositions[] = {
+        glm::vec3( 0.0f,  0.0f,  0.0f),
+        glm::vec3( 2.0f,  1.0f, -15.0f),
+        glm::vec3(-1.5f, -1.5f, -2.5f),
+        glm::vec3(-3.8f, -1.5f, -12.3f),
+        glm::vec3( 2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f,  1.0f, -7.5f),
+        glm::vec3( 1.3f, -1.0f, -2.5f),
+        glm::vec3( 1.5f,  1.0f, -2.5f),
+        glm::vec3( 1.5f,  0.2f, -1.5f),
+        glm::vec3(-1.3f,  1.0f, -1.5f)
+    };
+
+    for(auto position : cubePositions) {
+        squares.push_back(
+            new TexturedSquare(
+                "resources/textures/container.jpg",
+                &shader,
+                camera,
+                position
+            )
+        );
+    }
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -87,8 +100,9 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        square.draw();
-        square1.draw();
+        for(auto square : squares) {
+            square->draw();
+        }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
