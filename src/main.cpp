@@ -69,19 +69,28 @@ int main()
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
+    int i = 0;
+
     for(auto position : cubePositions) {
+
+        std::string image = "resources/textures/bricks2.jpg";
+
         squares.push_back(
             new TexturedSquare(
-                "resources/textures/container.jpg",
+                image,
                 &shader,
                 camera,
                 position
             )
         );
+
+        i++;
     }
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    glEnable(GL_DEPTH_TEST);
 
     // render loop
     // -----------
@@ -98,7 +107,7 @@ int main()
         // render
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         for(auto square : squares) {
             square->draw();
