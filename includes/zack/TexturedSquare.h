@@ -20,6 +20,8 @@ public:
 
     void draw();
 
+    void SetPosition(glm::vec3 position);
+
 private:
     uint32_t mTextureId;
     uint32_t mVAO;

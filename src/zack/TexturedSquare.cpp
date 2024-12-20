@@ -83,6 +83,10 @@ TexturedSquare::TexturedSquare(
 
 }
 
+void TexturedSquare::SetPosition(glm::vec3 position) {
+    mPosition = position;
+}
+
 void TexturedSquare::draw() {
 
     mShader->use();

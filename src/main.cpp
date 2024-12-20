@@ -55,19 +55,13 @@ int main()
     Shader shader("resources/shaders/shader.vs", "resources/shaders/shader.fs");
 
     std::vector<TexturedSquare*> squares;
+    std::vector<glm::vec3> cubePositions;
 
-    glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f),
-        glm::vec3( 2.0f,  1.0f, -15.0f),
-        glm::vec3(-1.5f, -1.5f, -2.5f),
-        glm::vec3(-3.8f, -1.5f, -12.3f),
-        glm::vec3( 2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  1.0f, -7.5f),
-        glm::vec3( 1.3f, -1.0f, -2.5f),
-        glm::vec3( 1.5f,  1.0f, -2.5f),
-        glm::vec3( 1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
-    };
+    for(int i = 0; i < 10; i++) {
+        cubePositions.push_back(
+            glm::vec3( i,  -1.0f,  -5.0f)
+        );
+    }
 
     int i = 0;
 
@@ -86,6 +80,13 @@ int main()
 
         i++;
     }
+
+    TexturedSquare player(
+        "resources/textures/matrix.jpg",
+        &shader,
+        camera,
+        { 0.0f, 0.0f, -5.0f }
+    );
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -112,6 +113,11 @@ int main()
         for(auto square : squares) {
             square->draw();
         }
+
+        glm::vec3 cameraPosition = camera.GetPosition();
+
+        player.SetPosition({ cameraPosition.x, cameraPosition.y, -5.0f });
+        player.draw();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
