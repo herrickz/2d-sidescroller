@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <zack/Shader.h>
 #include <zack/TexturedSquare.h>
+#include <zack/Player.h>
+#include <zack/Direction.h>
 
 #include <iostream>
 #include <vector>
@@ -10,10 +12,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1200;
+const unsigned int SCR_HEIGHT = 900;
 
 Camera camera;
+Player *player;
 
 float lastFrameTime = glfwGetTime();
 float deltaTime = 0.0f;
@@ -81,12 +84,7 @@ int main()
         i++;
     }
 
-    TexturedSquare player(
-        "resources/textures/matrix.jpg",
-        &shader,
-        camera,
-        { 0.0f, 0.0f, -5.0f }
-    );
+    player = new Player(camera, &shader);
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -116,8 +114,8 @@ int main()
 
         glm::vec3 cameraPosition = camera.GetPosition();
 
-        player.SetPosition({ cameraPosition.x, cameraPosition.y, -5.0f });
-        player.draw();
+        player->OnUpdate(deltaTime);
+        player->Draw();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -140,10 +138,14 @@ void processInput(GLFWwindow *window)
     }
 
     if (glfwGetKey(window, GLFW_KEY_A)) {
-        camera.ProcessKeyboard(CameraMovement::LEFT, deltaTime);
+        player->ProcessKeyboard(0, deltaTime);
     }
     if (glfwGetKey(window, GLFW_KEY_D)) {
-        camera.ProcessKeyboard(CameraMovement::RIGHT, deltaTime);
+        player->ProcessKeyboard(1, deltaTime);
+    }
+
+    if(glfwGetKey(window, GLFW_KEY_SPACE)) {
+        player->OnJump();
     }
 }
 

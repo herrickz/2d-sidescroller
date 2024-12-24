@@ -45,6 +45,11 @@ glm::vec3 Camera::GetPosition() {
     return Position;
 }
 
+void Camera::SetPosition(float x, float y) {
+    Position.x = x;
+    Position.y = y;
+}
+
 glm::mat4 Camera::GetViewMatrix() {
     return glm::lookAt(Position, Position + Front, Up);
 }
